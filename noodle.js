@@ -1,10 +1,3 @@
-c = document.getElementById("c");
-dd = c.getContext('2d');
-w = c.width = 640;
-h = c.height = 480;
-
-document.getElementById("inp").oninput = ch;
-
 const DEBUG = false;
 const R = 2/3; // cantor set density
 const CLIP_LIMIT = 0.5;
@@ -125,11 +118,6 @@ function render(d, levels, rho, t) {
   d.restore();
 }
 
-const off = document.createElement('canvas');
-off.width = w;
-off.height = h;
-const offd = off.getContext('2d');
-
 function renderSmooth(d1, d2, c2, L, rho, t) {
   // for visual smoothness, at t=0 we render L levels,
   // and at t=1 we render L-1.
@@ -140,14 +128,31 @@ function renderSmooth(d1, d2, c2, L, rho, t) {
   d1.drawImage(c2, 0, 0, w, h);
 }
 
-function renderSmoothAt(t) {
-  renderSmooth(dd, offd, off, REC_LEVELS, rho, t);
+if (typeof module != 'undefined') {
+  module.exports = renderSmooth;
 }
+else {
+  c = document.getElementById("c");
+  dd = c.getContext('2d');
+  w = c.width = 640;
+  h = c.height = 480;
 
-renderSmoothAt(0);
+  const off = document.createElement('canvas');
+  off.width = w;
+  off.height = h;
+  const offd = off.getContext('2d');
 
-function ch(e) {
-  const bigt = 8 * parseFloat(e.target.value);
-  const t = bigt - Math.floor(bigt);
-  renderSmoothAt(t);
+  function renderSmoothAt(t) {
+	 renderSmooth(dd, offd, off, REC_LEVELS, rho, t);
+  }
+
+  document.getElementById("inp").oninput = ch;
+
+  renderSmoothAt(0);
+
+  function ch(e) {
+	 const bigt = 8 * parseFloat(e.target.value);
+	 const t = bigt - Math.floor(bigt);
+	 renderSmoothAt(t);
+  }
 }
