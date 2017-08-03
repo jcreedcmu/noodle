@@ -18,7 +18,7 @@ function cantor(n, small, big, f) {
   }
 }
 
-function render(d, levels, rho, t) {
+function render(d, levels, rho, w, h, t) {
   function shape(cx, cy, mn, mj, t) {
 	 const theta = Math.PI * 2 * t;
 	 const phi = Math.PI * 2 * (1 + t) / 2;
@@ -61,7 +61,7 @@ function render(d, levels, rho, t) {
 	 d.strokeStyle = "black";
 
 	 d.beginPath();
-	 d.arc(cx, cy, mj - mn , Math.PI + theta, Math.PI,  true);
+	 d.arc(cx, cy, mj - mn , Math.PI + theta, Math.PI, true);
 	 d.stroke();
 
 	 // isolate the trailing piece
@@ -118,24 +118,26 @@ function render(d, levels, rho, t) {
   d.restore();
 }
 
-function renderSmooth(d1, d2, c2, L, rho, t) {
+function renderSmooth(d1, d2, c2, L, rho, w, h, t) {
   // for visual smoothness, at t=0 we render L levels,
   // and at t=1 we render L-1.
   d1.globalAlpha = 1;
-  render(d1, L, rho, t);
-  render(d2, L-1, rho, t);
+  render(d1, L, rho, w, h, t);
+  render(d2, L-1, rho, w, h, t);
   d1.globalAlpha = t;
   d1.drawImage(c2, 0, 0, w, h);
 }
 
 if (typeof module != 'undefined') {
-  module.exports = renderSmooth;
+  module.exports.render = renderSmooth;
+  module.exports.REC_LEVELS = REC_LEVELS;
+  module.exports.rho = rho;
 }
 else {
   c = document.getElementById("c");
   dd = c.getContext('2d');
-  w = c.width = 640;
-  h = c.height = 480;
+  const w = c.width = 640;
+  const h = c.height = 480;
 
   const off = document.createElement('canvas');
   off.width = w;
@@ -143,7 +145,7 @@ else {
   const offd = off.getContext('2d');
 
   function renderSmoothAt(t) {
-	 renderSmooth(dd, offd, off, REC_LEVELS, rho, t);
+	 renderSmooth(dd, offd, off, REC_LEVELS, rho, w, h, t);
   }
 
   document.getElementById("inp").oninput = ch;
