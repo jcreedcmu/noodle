@@ -65,14 +65,18 @@ function render(d, levels, rho, w, h, t) {
 	 d.stroke();
 
 	 // isolate the trailing piece
-	 d.save();
-	 d.beginPath();
-	 trail_clip_path();
-	 d.clip();
+	 if (t > CLIP_LIMIT) {
+		d.save();
+		d.beginPath();
+		trail_clip_path();
+		d.clip();
+	 }
 	 d.beginPath();
 	 d.arc(cx - mj, cy, mn, 0, Math.PI);
 	 d.stroke();
-	 d.restore();
+	 if (t > CLIP_LIMIT) {
+		d.restore();
+	 }
 
 	 d.beginPath();
 	 d.arc(cx, cy, mj + mn , Math.PI, Math.PI + theta);
