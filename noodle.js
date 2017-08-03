@@ -18,10 +18,15 @@ function cantor(n, small, big, f) {
   }
 }
 
+function ease(x) {
+  return 6*x*x*x*x*x - 15*x*x*x*x + 10*x*x*x;
+}
+
 function render(d, levels, rho, w, h, t) {
   function shape(cx, cy, mn, mj, t) {
-	 const theta = Math.PI * 2 * t;
-	 const phi = Math.PI * 2 * (1 + t) / 2;
+	 const et = ease(t);
+	 const theta = Math.PI * 2 * et;
+	 const phi = Math.PI * 2 * (1 + et) / 2;
 
 	 function lead_clip_path() {
 		d.beginPath();
@@ -46,7 +51,7 @@ function render(d, levels, rho, w, h, t) {
 		d.arc(cx, cy, mj - mn , 0, 2 * Math.PI);
 		d.stroke();
 
-		if (t > CLIP_LIMIT) {
+		if (et > CLIP_LIMIT) {
 		  d.fillStyle = "#def";
 		  lead_clip_path();
 		  d.fill();
@@ -65,7 +70,7 @@ function render(d, levels, rho, w, h, t) {
 	 d.stroke();
 
 	 // isolate the trailing piece
-	 if (t > CLIP_LIMIT) {
+	 if (et > CLIP_LIMIT) {
 		d.save();
 		d.beginPath();
 		trail_clip_path();
@@ -74,7 +79,7 @@ function render(d, levels, rho, w, h, t) {
 	 d.beginPath();
 	 d.arc(cx - mj, cy, mn, 0, Math.PI);
 	 d.stroke();
-	 if (t > CLIP_LIMIT) {
+	 if (et > CLIP_LIMIT) {
 		d.restore();
 	 }
 
@@ -83,7 +88,7 @@ function render(d, levels, rho, w, h, t) {
 	 d.stroke();
 
 	 // isolate the leading piece
-	 if (t > CLIP_LIMIT) {
+	 if (et > CLIP_LIMIT) {
 		d.save();
 		d.beginPath();
 		lead_clip_path();
@@ -92,7 +97,7 @@ function render(d, levels, rho, w, h, t) {
 	 d.beginPath();
 	 d.arc(Math.cos(theta) * -mj + cx, Math.sin(theta) * -mj + cy, mn, Math.PI + theta, 2 * Math.PI + theta);
 	 d.stroke();
-	 if (t > CLIP_LIMIT) {
+	 if (et > CLIP_LIMIT) {
 		d.restore();
 	 }
 
@@ -114,6 +119,7 @@ function render(d, levels, rho, w, h, t) {
 
   const M = R * rho / (2 - R);
   const m = M * (1 - R);
+  // scaling and translating not eased
   const SC = Math.pow((rho + M) / M, (1-t));
   cantor(levels, m, M, (mn1, mn2) => {
 	 shape(SC * rho * (1-t),0, SC * mn1, SC * rho, t)
