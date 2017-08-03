@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "canvas": "^1.6.6"
+    "canvas": "^1.6.6",
+    "sprintf": "^0.1.5"
   }
 }
