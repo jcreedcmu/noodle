@@ -38,7 +38,7 @@ def decycle(sp):
   save_right = sp.bezier_points[0].handle_right.copy()
   sp.use_cyclic_u = False
 
-  sp.bezier_points.add()
+  sp.bezier_points.add(1)
   sp.bezier_points[len(sp.bezier_points)-1].co = sp.bezier_points[0].co.copy()
   sp.bezier_points[len(sp.bezier_points)-1].handle_left = save_left
   sp.bezier_points[len(sp.bezier_points)-1].handle_right = save_right
@@ -53,9 +53,9 @@ def build_scene(scene, time, etime):
   # Delete everything. Not 100% sure I'm deleting enough everything to
   # avoid leaks, but I'm doing my best to cover the stuff I know about.
   for ob in scene.objects:
-    ob.select = True
+    ob.select_set(True)
     if 'pres' in ob:
-      ob.select = False
+      ob.select_set(False)
   bpy.ops.object.delete()
   for block in D.curves:
     if block.users == 0:
@@ -68,22 +68,22 @@ def build_scene(scene, time, etime):
       D.meshes.remove(block)
 
   # Set cursor to origin
-  scene.cursor_location = uni(0)
+  scene.cursor.location = uni(0)
 
   # parent
   bpy.ops.object.empty_add(type='PLAIN_AXES')
-  C.scene.objects.active.name = 'Parent'
+  C.view_layer.objects.active.name = 'Parent'
 
   # Ring
   bpy.ops.curve.primitive_bezier_circle_add(radius=1 - 1./(SF-1), location=uni(0))
-  C.scene.objects.active.name = 'c1'
+  C.view_layer.objects.active.name = 'c1'
   bpy.ops.curve.primitive_bezier_circle_add(radius=1 + 1./(SF-1), location=uni(0))
-  C.scene.objects.active.name = 'c2'
+  C.view_layer.objects.active.name = 'c2'
   bpy.data.objects['c1'].rotation_euler = mathutils.Euler((radians(180),0,0), 'XYZ')
-  D.objects['c1'].select = True
-  D.objects['c2'].select = True
+  D.objects['c1'].select_set(True)
+  D.objects['c2'].select_set(True)
   bpy.ops.object.join()
-  C.scene.objects.active.name = 'Ring'
+  C.view_layer.objects.active.name = 'Ring'
 
   # Outer
   circ('Outer', radius=SF)
@@ -97,13 +97,13 @@ def build_scene(scene, time, etime):
   # end caps
   bpy.ops.mesh.primitive_torus_add(major_radius=1, minor_radius=1./(SF-1), location=((-SF, 0, 0)),
                                    rotation=mathutils.Euler((radians(90), 0, 0), 'XYZ'))
-  C.scene.objects.active.name = 'Cap1'
+  C.view_layer.objects.active.name = 'Cap1'
   for p in bpy.data.objects['Cap1'].data.polygons:
     p.use_smooth = True
 
   bpy.ops.mesh.primitive_torus_add(major_radius=1, minor_radius=1./(SF-1), location=((-SF, 0, 0)),
                                    rotation=mathutils.Euler((radians(90), 0, 0), 'XYZ'))
-  C.scene.objects.active.name = 'Cap2'
+  C.view_layer.objects.active.name = 'Cap2'
   for p in bpy.data.objects['Cap2'].data.polygons:
     p.use_smooth = True
 
