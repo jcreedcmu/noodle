@@ -168,8 +168,8 @@ else:
     scene.frame_end = n
     t = n * 1.0 / MAXF
     build_scene(scene, t, ease(t))
-    bpy.context.scene.render.resolution_x = 1024
-    bpy.context.scene.render.resolution_y = 768
+    bpy.context.scene.render.resolution_x = 1920
+    bpy.context.scene.render.resolution_y = 1080
     C.scene.render.image_settings.file_format = 'PNG'
     C.scene.cycles.samples = 128
     bpy.ops.render.render(animation=True)
