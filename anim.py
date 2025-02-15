@@ -15,7 +15,7 @@ from mathutils import Matrix
 DEBUG = False
 
 SF = 5 # scale factor; ratio of how wide torus is to how thick it is
-MAXF = 24 # number of frames of animation
+MAXF = 60 # number of frames of animation
 C = bpy.context
 D = bpy.data
 scene = C.scene
@@ -170,8 +170,10 @@ else:
     scene.frame_end = n
     t = n * 1.0 / MAXF
     build_scene(scene, t, ease(t))
-    bpy.context.scene.render.resolution_x = 1920
-    bpy.context.scene.render.resolution_y = 1080
+    # bpy.context.scene.render.resolution_x = 1920
+    # bpy.context.scene.render.resolution_y = 1080
+    bpy.context.scene.render.resolution_x = 3840
+    bpy.context.scene.render.resolution_y = 2160
     C.scene.render.image_settings.file_format = 'PNG'
-    C.scene.cycles.samples = 128
+    C.scene.cycles.samples = 256
     bpy.ops.render.render(animation=True)
