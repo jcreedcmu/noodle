@@ -88,6 +88,7 @@ def build_scene(scene, time, etime):
 
   # Outer
   circ('Outer', radius=SF)
+  D.objects['Outer'].data.bevel_mode = 'OBJECT'
   D.objects['Outer'].data.bevel_object = D.objects['Ring']
   decycle(D.objects['Outer'].data.splines[0])
 
