@@ -85,11 +85,13 @@ def build_scene(scene, time, etime):
   D.objects['c2'].select_set(True)
   bpy.ops.object.join()
   C.view_layer.objects.active.name = 'Ring'
+  D.objects['Ring'].data.resolution_u = 24 # up from default 12
 
   # Outer
   circ('Outer', radius=SF)
   D.objects['Outer'].data.bevel_mode = 'OBJECT'
   D.objects['Outer'].data.bevel_object = D.objects['Ring']
+  D.objects['Outer'].data.resolution_u = 24 # up from default 12
   decycle(D.objects['Outer'].data.splines[0])
 
   D.objects['Outer'].data.bevel_factor_end = etime
