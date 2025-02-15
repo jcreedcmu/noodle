@@ -19,6 +19,7 @@ MAXF = 24 # number of frames of animation
 C = bpy.context
 D = bpy.data
 scene = C.scene
+scene.frame_start = 1
 scene.frame_end = MAXF
 
 # Uniform vector
