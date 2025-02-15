@@ -1,5 +1,12 @@
-Cantor Noodle
+Infinite Macaroni
 =============
+
+A looping animation I made in blender.
+
+Watch it on youtube: https://www.youtube.com/watch?v=RXreVnUwH80
+
+3d version
+----------
 
     anim.py
     pasta-loop.blend
