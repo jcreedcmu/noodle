@@ -6,6 +6,11 @@ Cantor Noodle
 
 3d version in blender, with python script to generate animation.
 
+2d version
+----------
+
+I made a 2d prototype at first just for sort of checking my intuitions about the math.
+
 	noodle.js
 	noodle.html
 
@@ -13,4 +18,4 @@ Cantor Noodle
 
 	anim.js
 
-Nodejs driver for rendering 2d version
+Nodejs driver for rendering a 2d version
