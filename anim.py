@@ -123,6 +123,11 @@ def build_scene(scene, time, etime):
   bpy.data.objects['Cap1'].active_material = bpy.data.materials['Red']
   bpy.data.objects['Cap2'].active_material = bpy.data.materials['Red']
 
+  # We get Z-fighting at time zero
+  if time == 0:
+      bpy.data.objects['Cap2'].select_set(True)
+      bpy.ops.object.delete()
+
   obj = bpy.data.objects['Parent']
   mat = Matrix.Translation(((1. - etime) * SF, 0, 0))
   obj.matrix_world = mat @ obj.matrix_world
