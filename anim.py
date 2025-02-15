@@ -135,7 +135,7 @@ def build_scene(scene, time, etime):
   mat = Matrix.Rotation(-etime * radians(90), 4, 'X')
   obj.matrix_world = mat @ obj.matrix_world
 
-  mat = Matrix.Scale(math.pow(1. / SF, time), 4)
+  mat = Matrix.Scale(math.pow(1. / SF, etime), 4)
   obj.matrix_world = mat @ obj.matrix_world
 
   # for area in bpy.context.screen.areas:
